@@ -216,7 +216,7 @@ def build_lxml_node_tree(root: LxmlRootType,
 
         # Add root siblings (comments and processing instructions)
         for e in reversed([x for x in elem.itersiblings(preceding=True)]):
-            if e.tag.__name__ == 'Comment':  # type: ignore[attr-defined]
+            if hasattr(e.tag, __name__) and e.tag.__name__ == 'Comment':  # type: ignore[attr-defined]
                 parent.children.append(CommentNode(e, parent, position))
             else:
                 parent.children.append(ProcessingInstructionNode(e, parent, position))
@@ -226,7 +226,7 @@ def build_lxml_node_tree(root: LxmlRootType,
         parent.children.append(node)
 
         for e in elem.itersiblings():
-            if e.tag.__name__ == 'Comment':  # type: ignore[attr-defined]
+            if hasattr(e.tag, __name__) and e.tag.__name__ == 'Comment':  # type: ignore[attr-defined]
                 parent.children.append(CommentNode(e, parent, position))
             else:
                 parent.children.append(ProcessingInstructionNode(e, parent, position))
